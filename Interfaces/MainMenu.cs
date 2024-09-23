@@ -8,7 +8,7 @@ namespace Interfaces
 {
     public class MainMenu
     {
-        MenuItem m_MainMenu;
+        MenuItem m_MainMenu; // The head
 
 
         public MainMenu(MenuItem i_MenuItem)
@@ -25,7 +25,7 @@ namespace Interfaces
                 DisplayMenu(m_MainMenu);
 
                 choice = GetValidInput(m_MainMenu.SubMenus.Count);
-                var selectedItem = m_MainMenu.SubMenus[choice - 1];
+                MenuItem selectedItem = m_MainMenu.SubMenus[choice - 1];
 
                 if (selectedItem.MenuHasSubItem())
                 {
