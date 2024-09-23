@@ -26,25 +26,41 @@ namespace Interfaces
 
         public void Show()
         {
+            bool isBackPressed = false;
+
+            do
+            {
+                int userInput = PrintMenuAndGetUserInput();
+                InternalMenu menu = m_PossibleItems[userInput] as InternalMenu;
+
+                if (menu != null)
+                {
+                    menu.Show();
+                }
+                else if (m_PossibleItems[userInput] is IAction)
+                {
+                    ((IAction)m_PossibleItems[userInput]).Run();
+                }
+                else
+                {
+                    isBackPressed = true;
+                }
+            } while (!isBackPressed);
+        }
+
+        public int PrintMenuAndGetUserInput()
+        {
             Console.WriteLine($"** {Title} **");
             Console.WriteLine("--------------------");
-            for (int i=0; i<m_PossibleItems.Count; i++)
+            for (int i = 0; i < m_PossibleItems.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {m_PossibleItems[i].Title}");
             }
             string returnOption = m_IsReturnable ? "Back" : "Exit";
             Console.WriteLine($"0. {returnOption}");
-
             int userChoice = GetValidInput(returnOption);
-            
-            if(userChoice == 0)
-            {
 
-            }
-            else
-            {
-
-            }
+            return userChoice;
         }
 
         public int GetValidInput(string i_ReturnOption)
