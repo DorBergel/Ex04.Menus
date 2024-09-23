@@ -8,11 +8,11 @@ namespace Interfaces
 {
     public abstract class MenuItem
     {
-        string m_Title;
+        private string m_Title;
 
         public MenuItem(string i_Title)
         {
-            this.m_Title = i_Title;
+            m_Title = i_Title;
         }
 
         public string Title

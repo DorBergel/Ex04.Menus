@@ -14,6 +14,7 @@ namespace Interfaces
         public MainMenu()
         {
             m_InternalMenus = new List<InternalMenu>();
+            m_InternalMenus.Add(null);
         }
 
         public void AddInternalMenu(InternalMenu i_InternalMenu)
@@ -31,6 +32,7 @@ namespace Interfaces
                 isExitPressed = userChoice == 0;
                 if (!isExitPressed)
                 {
+                    Console.Clear();
                     m_InternalMenus[userChoice].Show();
                 }
             } while (!isExitPressed);
@@ -39,11 +41,14 @@ namespace Interfaces
         private int DisplayMenuAndGetUserInput()
         {
             Console.WriteLine($"** Interfaces Main Menu **");
-            Console.WriteLine($"--------------------");
+            Console.WriteLine($"--------------------------");
 
             for (int i = 0; i < m_InternalMenus.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {m_InternalMenus[i].Title}");
+                if (m_InternalMenus[i] != null)
+                {
+                    Console.WriteLine($"{i}. {m_InternalMenus[i].Title}");
+                }
             }
 
             Console.WriteLine("0. Exit");
@@ -58,7 +63,8 @@ namespace Interfaces
 
             while(true)
             {
-                Console.Write($"Please enter your choice ({1}-{i_MaxOption} or 0 to Exit"); // TODO think of the condition to when it should display 'back' or 'exit'
+                Console.WriteLine($"Please enter your choice ({1}-{i_MaxOption} or 0 to Exit):");
+                Console.Write(">> ");
                 string userInput = Console.ReadLine();
                 
                 if(int.TryParse(userInput, out userChoice) && userChoice >= 0 && userChoice <= i_MaxOption)
