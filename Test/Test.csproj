@@ -37,6 +37,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CountCapitals.cs" />
+    <Compile Include="DelegatesMethods.cs" />
+    <Compile Include="DelegatesTest.cs" />
     <Compile Include="InterfacesTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ShowDate.cs" />
@@ -44,6 +46,10 @@
     <Compile Include="ShowVersion.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Events\Events.csproj">
+      <Project>{349eb70e-d806-4673-93f4-272a034e7f78}</Project>
+      <Name>Events</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{9c173c94-7522-48a8-a632-db0ab2b14e74}</Project>
       <Name>Interfaces</Name>

@@ -12,6 +12,9 @@ namespace Test
         {
             InterfacesTest interfaceMenu = new InterfacesTest();
             interfaceMenu.RunMainMenu();
+
+            DelegatesTest delegatesMenu = new DelegatesTest();
+            delegatesMenu.RunMainMenu();
         }
     }
 }

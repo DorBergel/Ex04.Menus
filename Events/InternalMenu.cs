@@ -4,19 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Interfaces
+namespace Events
 {
     public class InternalMenu : MenuItem
     {
-        Dictionary<int, MenuItem> m_PossibleItems;
-        bool m_IsReturnable;
-        int m_NumberOfOptions;
+        private Dictionary<int, MenuItem> m_PossibleItems;
+        private bool m_IsReturnable;
+        private int m_NumberOfOptions;
 
-        public InternalMenu(string i_Title, bool i_IsReturnable) : base(i_Title)
+        public InternalMenu(string i_ItemTitle, Action i_ItemAction) : base(i_ItemTitle, i_ItemAction)
         {
-            m_PossibleItems = new Dictionary<int, MenuItem>();
-            m_IsReturnable = i_IsReturnable;
             m_NumberOfOptions = 1;
+            m_PossibleItems = new Dictionary<int, MenuItem>();
             m_PossibleItems.Add(0, null);
         }
 
@@ -32,21 +31,21 @@ namespace Interfaces
             do
             {
                 int userInput = PrintMenuAndGetUserInput();
-                InternalMenu menu = m_PossibleItems[userInput] as InternalMenu;
+                MenuItem selectedItem = m_PossibleItems[userInput];
 
-                if (menu != null)
+                if (selectedItem is InternalMenu)
                 {
                     Console.Clear();
-                    menu.Show();
-                }
-                else if (m_PossibleItems[userInput] is IAction)
-                {
-                    ((IAction)m_PossibleItems[userInput]).Run();
+                    ((InternalMenu)selectedItem).Show();
                 }
                 else
                 {
-                    Console.Clear();
-                    isBackPressed = true;
+                    selectedItem?.Run();
+                    if (selectedItem == null)
+                    {
+                        Console.Clear();
+                        isBackPressed = true;
+                    }
                 }
             } while (!isBackPressed);
         }
@@ -76,7 +75,7 @@ namespace Interfaces
             string userInput = Console.ReadLine();
             int userChoice;
 
-            while(true)
+            while (true)
             {
                 if (int.TryParse(userInput, out userChoice) && userChoice >= 0 && userChoice <= m_NumberOfOptions)
                 {

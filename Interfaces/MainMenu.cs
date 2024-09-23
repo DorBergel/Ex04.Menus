@@ -8,7 +8,7 @@ namespace Interfaces
 {
     public class MainMenu
     {
-        private List<InternalMenu> m_InternalMenus; // The head
+        private List<InternalMenu> m_InternalMenus;
 
 
         public MainMenu()
@@ -30,9 +30,9 @@ namespace Interfaces
             {
                 int userChoice = DisplayMenuAndGetUserInput();
                 isExitPressed = userChoice == 0;
+                Console.Clear();
                 if (!isExitPressed)
                 {
-                    Console.Clear();
                     m_InternalMenus[userChoice].Show();
                 }
             } while (!isExitPressed);
