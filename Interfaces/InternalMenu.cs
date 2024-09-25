@@ -17,7 +17,7 @@ namespace Interfaces
             m_PossibleItems = new Dictionary<int, MenuItem>();
             m_IsReturnable = i_IsReturnable;
             m_NumberOfOptions = 1;
-            m_PossibleItems.Add(0, null);
+            m_PossibleItems.Add(0, new ActionItem("Back", null));
         }
 
         public void AddItem(MenuItem i_Item)
@@ -25,70 +25,90 @@ namespace Interfaces
             m_PossibleItems.Add(m_NumberOfOptions++, i_Item);
         }
 
-        public void Show()
+        public override void Show()
         {
             bool isBackPressed = false;
+            Console.Clear();
 
             do
             {
                 int userInput = PrintMenuAndGetUserInput();
-                InternalMenu menu = m_PossibleItems[userInput] as InternalMenu;
-
-                if (menu != null)
-                {
-                    Console.Clear();
-                    menu.Show();
-                }
-                else if (m_PossibleItems[userInput] is IAction)
-                {
-                    ((IAction)m_PossibleItems[userInput]).Run();
-                }
-                else
+                if (userInput == 0)
                 {
                     Console.Clear();
                     isBackPressed = true;
+                }
+                else
+                {
+                    MenuItem selectedItem = m_PossibleItems[userInput];
+                    selectedItem.Show();
                 }
             } while (!isBackPressed);
         }
 
         public int PrintMenuAndGetUserInput()
         {
-            Console.WriteLine($"** {Title} **");
-            Console.WriteLine("--------------------");
+            string menuTitle = $"** {Title} **";
+            Console.WriteLine(menuTitle);
+            Console.WriteLine(new string('-', menuTitle.Length));
             foreach (var item in m_PossibleItems)
             {
-                if (item.Value != null)
+                if (item.Value.Title != "Back")
                 {
                     Console.WriteLine($"{item.Key}. {item.Value.Title}");
                 }
             }
 
-            Console.WriteLine($"0. Back");
-            Console.WriteLine($"Please enter your choice (1 - {m_NumberOfOptions} or 0 to Back):");
-            Console.Write(">> ");
-            int userChoice = GetValidInput();
+            Console.WriteLine($"0. {m_PossibleItems[0].Title}");
+            int userChoice = GetValidInput(m_NumberOfOptions);
 
             return userChoice;
         }
 
-        public int GetValidInput()
+        public int GetValidInput(int i_MaxOption)
         {
-            string userInput = Console.ReadLine();
-            int userChoice;
+            int userChoice = -1;
+            bool isValidInput = false;
 
-            while(true)
+            do
             {
-                if (int.TryParse(userInput, out userChoice) && userChoice >= 0 && userChoice <= m_NumberOfOptions)
+                Console.WriteLine($"Please enter your choice (1-{i_MaxOption - 1} or 0 to Exit):");
+                Console.Write(">> ");
+                string userInput = Console.ReadLine();
+
+                try
                 {
-                    break;
+                    isValidInput = checkIfInputValid(userInput, i_MaxOption);
+                    userChoice = int.Parse(userInput);
                 }
-                else
+                catch (FormatException formatException)
                 {
-                    Console.WriteLine($"Invalid input, (1 - {m_NumberOfOptions} or 0 to Back):");
+                    Console.WriteLine(formatException.Message);
                 }
-            }
+                catch (ArgumentException argumentException)
+                {
+                    Console.WriteLine(argumentException.Message);
+                }
+            } while (!isValidInput);
 
             return userChoice;
+        }
+
+        private bool checkIfInputValid(string i_UserInput, int i_MaxOption)
+        {
+            int userChoiceNumber;
+            bool isValidInput = int.TryParse(i_UserInput, out userChoiceNumber);
+
+            if (!isValidInput)
+            {
+                throw new FormatException("Error: Only digits allowed here. Try again.");
+            }
+            else if (userChoiceNumber < 0 || userChoiceNumber >= i_MaxOption)
+            {
+                throw new ArgumentException("Error: Your input is out of range. Try again.");
+            }
+
+            return isValidInput;
         }
     }
 }

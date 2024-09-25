@@ -19,12 +19,12 @@ namespace Test
         public void RunMainMenu()
         {
             InternalMenu versionAndCapitals = new InternalMenu("Version and Capitals", false);
-            versionAndCapitals.AddItem(new CountCapitals("Count Capitals"));
-            versionAndCapitals.AddItem(new ShowVersion("Show Version"));
+            versionAndCapitals.AddItem(new ActionItem("Count Capitals", new CountCapitals()));
+            versionAndCapitals.AddItem(new ActionItem("Show Version", new ShowVersion()));
             
             InternalMenu showCurrentTimeAndDate = new InternalMenu("Show Current Date/Time", false);
-            showCurrentTimeAndDate.AddItem(new ShowDate("Show Current Date"));
-            showCurrentTimeAndDate.AddItem(new ShowTime("Show Current Time"));
+            showCurrentTimeAndDate.AddItem(new ActionItem("Show Current Date", new ShowDate()));
+            showCurrentTimeAndDate.AddItem(new ActionItem("Show Current Time", new ShowTime()));
 
             m_MainMenu.AddInternalMenu(versionAndCapitals);
             m_MainMenu.AddInternalMenu(showCurrentTimeAndDate);

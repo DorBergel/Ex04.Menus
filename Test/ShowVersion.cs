@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace Test
 {
-    public class ShowVersion : MenuItem, IAction
+    public class ShowVersion : IAction
     {
-        public ShowVersion(string i_ItemTitle) : base(i_ItemTitle)
-        { }
-
         public void Run()
         {
-            Console.WriteLine($"App version: 24.3.4.0495 {Environment.NewLine}");
+            Console.WriteLine($"App Version: 24.3.4.0495 {Environment.NewLine}");
         }
     }
 }

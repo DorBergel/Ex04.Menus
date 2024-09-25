@@ -8,18 +8,18 @@ namespace Interfaces
 {
     public class MainMenu
     {
-        private List<InternalMenu> m_InternalMenus;
+        private List<MenuItem> m_MainMenuItems;
 
 
         public MainMenu()
         {
-            m_InternalMenus = new List<InternalMenu>();
-            m_InternalMenus.Add(null);
+            m_MainMenuItems = new List<MenuItem>();
+            m_MainMenuItems.Add(new ActionItem("Exit", null));
         }
 
         public void AddInternalMenu(InternalMenu i_InternalMenu)
         {
-            m_InternalMenus.Add(i_InternalMenu);
+            m_MainMenuItems.Add(i_InternalMenu);
         }
 
         public void Show()
@@ -30,10 +30,13 @@ namespace Interfaces
             {
                 int userChoice = DisplayMenuAndGetUserInput();
                 isExitPressed = userChoice == 0;
-                Console.Clear();
                 if (!isExitPressed)
                 {
-                    m_InternalMenus[userChoice].Show();
+                    m_MainMenuItems[userChoice].Show();
+                }
+                else
+                {
+                    Console.Clear();
                 }
             } while (!isExitPressed);
         }
@@ -43,16 +46,13 @@ namespace Interfaces
             Console.WriteLine($"** Interfaces Main Menu **");
             Console.WriteLine($"--------------------------");
 
-            for (int i = 0; i < m_InternalMenus.Count; i++)
+            for (int i = 1; i < m_MainMenuItems.Count; i++)
             {
-                if (m_InternalMenus[i] != null)
-                {
-                    Console.WriteLine($"{i}. {m_InternalMenus[i].Title}");
-                }
+                Console.WriteLine($"{i}. {m_MainMenuItems[i].Title}");
             }
 
-            Console.WriteLine("0. Exit");
-            int userChoice = GetValidInput(m_InternalMenus.Count);
+            Console.WriteLine($"0. {m_MainMenuItems[0].Title}");
+            int userChoice = GetValidInput(m_MainMenuItems.Count);
 
             return userChoice;
         }
@@ -63,7 +63,7 @@ namespace Interfaces
 
             while(true)
             {
-                Console.WriteLine($"Please enter your choice ({1}-{i_MaxOption} or 0 to Exit):");
+                Console.WriteLine($"Please enter your choice ({1}-{i_MaxOption - 1} or 0 to Exit):");
                 Console.Write(">> ");
                 string userInput = Console.ReadLine();
                 

@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace Test
 {
-    public class CountCapitals : MenuItem, IAction
+    public class CountCapitals : IAction
     {
-        public CountCapitals(string i_ItemTitle) : base(i_ItemTitle)
-        { }
-
         public void Run()
         {
             int countCapitalLetters = 0;

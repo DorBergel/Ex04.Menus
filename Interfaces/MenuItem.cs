@@ -20,5 +20,6 @@ namespace Interfaces
             get { return m_Title; }
         }
 
+        public abstract void Show();
     }
 }

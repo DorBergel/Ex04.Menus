@@ -18,18 +18,47 @@ namespace Test
 
         public void RunMainMenu()
         {
-            InternalMenu versionAndCapitals = new InternalMenu("Version and Capitals", null);
-            versionAndCapitals.AddItem(new MenuItem("Count Capitals", DelegatesMethods.CountCapitals));
-            versionAndCapitals.AddItem(new MenuItem("Show Version", DelegatesMethods.ShowVersion));
+            InternalMenu versionAndCapitals = new InternalMenu("Version and Capitals");
+            ActionItem countCapitals = new ActionItem("Count Capitals");
+            ActionItem showVersion = new ActionItem("Show Version");
+            versionAndCapitals.AddItem(countCapitals);
+            versionAndCapitals.AddItem(showVersion);
 
-            InternalMenu showCurrentTimeAndDate = new InternalMenu("Show Current Date/Time", null);
-            showCurrentTimeAndDate.AddItem(new MenuItem("Show Current Date", DelegatesMethods.ShowDate));
-            showCurrentTimeAndDate.AddItem(new MenuItem("Show Current Time", DelegatesMethods.ShowTime));
+            InternalMenu showCurrentTimeAndDate = new InternalMenu("Show Current Date/Time");
+            ActionItem showDate = new ActionItem("Show Current Date");
+            ActionItem showTime = new ActionItem("Show Current Time");
+            showCurrentTimeAndDate.AddItem(showDate);
+            showCurrentTimeAndDate.AddItem(showTime);
 
             m_MainMenu.AddInternalMenu(versionAndCapitals);
             m_MainMenu.AddInternalMenu(showCurrentTimeAndDate);
 
+            countCapitals.ItemSelected += CountCapitals_ItemSelected;
+            showVersion.ItemSelected += ShowVersion_ItemSelected;
+            showDate.ItemSelected += ShowDate_ItemSelected;
+            showTime.ItemSelected += ShowTime_ItemSelected;
+
             m_MainMenu.Show();
+        }
+
+        private void CountCapitals_ItemSelected(MenuItem i_Invoker)
+        {
+            DelegatesMethods.CountCapitals();
+        }
+
+        private void ShowVersion_ItemSelected(MenuItem i_Invoker)
+        {
+            DelegatesMethods.ShowVersion();
+        }
+
+        private void ShowDate_ItemSelected(MenuItem i_Invoker)
+        {
+            DelegatesMethods.ShowDate();
+        }
+
+        private void ShowTime_ItemSelected(MenuItem i_Invoker)
+        {
+            DelegatesMethods.ShowTime();
         }
     }
 }

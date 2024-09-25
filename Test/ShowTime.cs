@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace Test
 {
-    public class ShowTime : MenuItem, IAction
+    public class ShowTime : IAction
     {
-        public ShowTime(string i_ItemTitle) : base(i_ItemTitle)
-        { }
-
         public void Run()
         {
             Console.WriteLine($"{DateTime.Now.ToShortTimeString()} {Environment.NewLine}");
